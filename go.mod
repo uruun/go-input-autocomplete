@@ -1,4 +1,4 @@
-module github.com/JoaoDanielRufino/go-input-autocomplete
+module github.com/uruun/go-input-autocomplete
 
 go 1.21
 
