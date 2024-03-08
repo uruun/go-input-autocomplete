@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	input_autocomplete "github.com/JoaoDanielRufino/go-input-autocomplete"
+	input_autocomplete "github.com/uruun/go-input-autocomplete"
 )
 
 func main() {
