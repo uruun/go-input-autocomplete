@@ -164,14 +164,14 @@ func TestAutocompleteOnUnixOS(t *testing.T) {
 }
 
 func TestAutocompleteCycleOnUnixOS(t *testing.T) {
-	expectedAutocomplete := "/bin/rmdir"
+	expectedAutocomplete := "/lib64/"
 
 	if runtime.GOOS != "linux" && runtime.GOOS != "darwin" {
 		t.Skipf("Skip test because OS is %v", runtime.GOOS)
 	}
 
 	input := NewInput("test: ")
-	for _, ch := range "/bin/rm" {
+	for _, ch := range "/lib" {
 		input.AddChar(ch)
 	}
 
@@ -180,7 +180,7 @@ func TestAutocompleteCycleOnUnixOS(t *testing.T) {
 	AssertTextAndPosition(t, input, expectedAutocomplete, len(expectedAutocomplete))
 
 	input.Autocomplete()
-	AssertTextAndPosition(t, input, "/bin/rm", len("/bin/rm"))
+	AssertTextAndPosition(t, input, "/lib/", len("/lib/"))
 }
 
 func TestAutocompleteNoResultOnUnixOS(t *testing.T) {
