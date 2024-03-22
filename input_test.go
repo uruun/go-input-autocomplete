@@ -147,20 +147,72 @@ func TestAutocompleteOnNonUnixOS(t *testing.T) {
 }
 
 func TestAutocompleteOnUnixOS(t *testing.T) {
-	expectedAutocomplete := "/etc/passwd"
+	expectedAutocomplete := "/bin/mv"
 
 	if runtime.GOOS != "linux" && runtime.GOOS != "darwin" {
 		t.Skipf("Skip test because OS is %v", runtime.GOOS)
 	}
 
 	input := NewInput("test: ")
-	for _, ch := range "/etc/passw" {
+	for _, ch := range "/bin/mv" {
 		input.AddChar(ch)
 	}
 
 	input.Autocomplete()
 
 	AssertTextAndPosition(t, input, expectedAutocomplete, len(expectedAutocomplete))
+}
+
+func TestAutocompleteCycleOnUnixOS(t *testing.T) {
+	expectedAutocomplete := "/bin/rmdir"
+
+	if runtime.GOOS != "linux" && runtime.GOOS != "darwin" {
+		t.Skipf("Skip test because OS is %v", runtime.GOOS)
+	}
+
+	input := NewInput("test: ")
+	for _, ch := range "/bin/rm" {
+		input.AddChar(ch)
+	}
+
+	input.Autocomplete()
+	input.Autocomplete()
+	AssertTextAndPosition(t, input, expectedAutocomplete, len(expectedAutocomplete))
+
+	input.Autocomplete()
+	AssertTextAndPosition(t, input, "/bin/rm", len("/bin/rm"))
+}
+
+func TestAutocompleteNoResultOnUnixOS(t *testing.T) {
+	expectedAutocomplete := "/no_such_file_or_directory"
+
+	if runtime.GOOS != "linux" && runtime.GOOS != "darwin" {
+		t.Skipf("Skip test because OS is %v", runtime.GOOS)
+	}
+
+	input := NewInput("test: ")
+	for _, ch := range "/no_such_file_or_directory" {
+		input.AddChar(ch)
+	}
+
+	input.Autocomplete()
+	AssertTextAndPosition(t, input, expectedAutocomplete, len(expectedAutocomplete))
+}
+
+func TestRemoveLastSlashIfNeeded(t *testing.T) {
+	expectedText := "/etc"
+
+	if runtime.GOOS != "linux" && runtime.GOOS != "darwin" {
+		t.Skipf("Skip test because OS is %v", runtime.GOOS)
+	}
+
+	input := NewInput("test: ")
+	for _, ch := range "/etc/" {
+		input.AddChar(ch)
+	}
+
+	input.RemoveLastSlashIfNeeded()
+	AssertTextAndPosition(t, input, expectedText, len(expectedText))
 }
 
 func AssertTextAndPosition(t *testing.T, input *Input, expectedText string, expectedPosition int) {

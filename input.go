@@ -79,9 +79,6 @@ func (i *Input) Autocomplete() {
 		if len(i.matches) <= 1 {
 			i.isCycling = false
 		}
-		if len(i.matches) == 0 {
-			return
-		}
 	}
 
 	i.currentText = i.matches[i.cyclingPos]
@@ -104,6 +101,7 @@ func (i *Input) RemoveLastSlashIfNeeded() {
 
 	if size > 0 && i.currentText[size-1] == slash {
 		i.currentText = i.currentText[:size-1]
+		i.cursor.SetPosition(len(i.currentText))
 	}
 }
 
