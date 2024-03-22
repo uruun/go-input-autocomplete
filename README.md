@@ -5,7 +5,7 @@ A useful input that can autocomplete users path to directories or files when tab
 ## Installation
 
 ```bash
-go get github.com/JoaoDanielRufino/go-input-autocomplete
+go get github.com/uruun/go-input-autocomplete
 ```
 
 ## Usage
@@ -15,7 +15,7 @@ package main
 
 import (
 	"fmt"
-	input_autocomplete "github.com/JoaoDanielRufino/go-input-autocomplete"
+	input_autocomplete "github.com/uruun/go-input-autocomplete"
 )
 
 func main() {
